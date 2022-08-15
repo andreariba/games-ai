@@ -1,4 +1,4 @@
-# Tic-Tac-Toe
+# Games and AI
 
 Web interfaces in HTML, css and javascript for 
 
