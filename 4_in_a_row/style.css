@@ -1,0 +1,90 @@
+body {
+    background-color: rgb(244, 244, 244);
+    text-align: center;
+}
+
+.h1 {
+    font-family: sans-serif;
+}
+
+.container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid {
+    width: 420px;
+    height: 360px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.grid div {
+    width: 60px;
+    height: 60px;
+    margin: 0px;
+}
+
+.empty {
+    background: radial-gradient(circle, transparent 60%, rgb(0, 67, 154) 60%);
+}
+
+.player1 {
+    background: radial-gradient(circle, red 60%, rgb(0, 67, 154) 60%);
+}
+
+.player2 {
+    background: radial-gradient(circle, yellow 60%, rgb(0, 67, 154) 60%);
+}
+
+.panel {
+    margin: 30px;
+    width: 250px;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.probability-table, .settings-table {
+    table-layout: fixed;
+    width: 250px;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.probability-table thead tr,
+.settings-table thead tr {
+    background-color: #0275d8;
+    color: #ffffff;
+    text-align: center;
+}
+
+.probability-table th,
+.probability-table td,
+.settings-table th,
+.settings-table td {
+    padding: 12px 15px;
+}
+
+.probability-table tbody tr, .settings-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+#reset-button {
+    font-size: 20px;
+    border-radius: 2px;
+    border-color: #7e7e7e;
+}
+
+#reset-button:hover {
+    background-color: #7e7e7e;
+}
+
+#winner-span {
+    color: #0275d8;
+}

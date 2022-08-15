@@ -1,0 +1,98 @@
+:root {
+    --color: #81c3fd;
+    --color-set: #0275d8;
+    --l: 10px;
+}
+
+body {
+    background-color: rgb(244, 244, 244);
+    text-align: center;
+}
+
+.h1 {
+    font-family: sans-serif;
+}
+
+.container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.grid div {
+    width: 96px;
+    height: 96px;
+    margin: 0px;
+}
+
+.panel {
+    margin: 30px;
+    width: 250px;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.probability-table, .settings-table {
+    table-layout: fixed;
+    width: 250px;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.probability-table thead tr,
+.settings-table thead tr {
+    background-color: #0275d8;
+    color: #ffffff;
+    text-align: center;
+}
+
+.probability-table th,
+.probability-table td,
+.settings-table th,
+.settings-table td {
+    padding: 12px 15px;
+}
+
+.probability-table tbody tr, .settings-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+#reset-button {
+    font-size: 20px;
+    border-radius: 2px;
+    border-color: #7e7e7e;
+}
+
+#reset-button:hover {
+    background-color: #7e7e7e;
+}
+
+#winner-span {
+    color: #0275d8;
+}
+
+/* for cross (set) */
+.x {
+    background: linear-gradient(to top right, transparent calc(50% - var(--l) / 2), var(--color-set) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2)),
+        linear-gradient(to bottom right, transparent calc(50% - var(--l) / 2), var(--color-set) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2));
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* for circle (set) */
+.circle {
+    background: radial-gradient(circle, transparent calc(60% - var(--l)), var(--color-set) calc(60% - var(--l)), var(--color-set) 60%, transparent 60%);
+}

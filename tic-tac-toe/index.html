@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="app.js" charset="UTF-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    </link>
+    <!-- <link rel="shortcut icon" href="favicon.ico" /> -->
+    <title>Tic-Tac-Toe</title>
+</head>
+
+<h1>tic-tac-toe</h1>
+
+<div class="container">
+    <div class="grid"></div>
+
+    <div class="panel">
+        <table class="settings-table">
+            <thead>
+                <tr>
+                    <th>starts</th>
+                    <th>AI algorithm</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="radio" id="AI_first" name="first_player" value="AI" checked>
+                        <label for="AI_first">AI</label><br>
+                        <input type="radio" id="human_first" name="first_player" value=" human">
+                        <label for="human_first">human</label><br>
+                    </td>
+                    <td>
+                        <input type="radio" id="minimax" name="ai_algorithm" value="minimax" checked>
+                        <label for="minimax">minimax</label><br>
+                        <input type="radio" id="tensorflow" name="ai_algorithm" value="tensorflow" disabled>
+                        <label for="tensorflow">tensorflow</label><br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="probability-table">
+            <thead>
+                <tr>
+                    <th>draw</th>
+                    <th>X</th>
+                    <th>O</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="cell-pdraw"></td>
+                    <td id="cell-pX"></td>
+                    <td id="cell-pO"></td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><span id="winner-span">-</span></h3>
+        <button id="reset-button">reset</button>
+    </div>
+</div>
+
+
+</html>
