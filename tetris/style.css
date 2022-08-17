@@ -1,6 +1,6 @@
 /* cascading stylesheet */
 body {
-    background-color: rgb(169, 169, 169);
+    background-color: rgb(244, 244, 244);
     text-align: center;
 }
 
@@ -14,9 +14,9 @@ body {
 .left-panel {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    justify-content: center;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    /* justify-content: center; */
     margin: 10px;
 }
 
@@ -35,18 +35,20 @@ body {
     height: 420px;
     display: flex;
     flex-wrap: wrap;
+    border-width: 1px;
+    border-color: solid black;
     background-color: rgb(234, 234, 206);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .grid div {
-    width: 16px;
-    height: 16px;
-    border-width: 2px;
-    border-right: solid rgb(240, 234, 201);
+    width: 20px;
+    height: 20px;
+    /* border-width: 1px; */
+    /* border-right: solid rgb(240, 234, 201);
     border-top: solid rgb(240, 234, 201);
     border-left: solid rgb(175, 161, 91);
-    border-bottom: solid rgb(175, 161, 91);
+    border-bottom: solid rgb(175, 161, 91); */
 }
 
 .tetramino {}
@@ -60,11 +62,14 @@ body {
     color: #4CAF50;
     font-size: 14px;
     border-radius: 4px;
-    border: 2px solid #4CAF50; /* Green */
+    border: 2px solid #4CAF50;
+    /* Green */
     transition-duration: 0.4s;
 }
+
 #start-button:hover {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
+    /* Green */
     color: white;
 }
 
@@ -78,11 +83,11 @@ body {
 }
 
 .mini-grid div {
-    width: 16px;
-    height: 16px;
-    border-width: 2px;
+    width: 20px;
+    height: 20px;
+    /* border-width: 1px;
     border-right: solid rgb(240, 234, 201);
     border-top: solid rgb(240, 234, 201);
     border-left: solid rgb(175, 161, 91);
-    border-bottom: solid rgb(175, 161, 91);
+    border-bottom: solid rgb(175, 161, 91); */
 }

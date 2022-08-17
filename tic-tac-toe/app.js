@@ -59,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let cellPX = document.getElementById('cell-pX')
     let cellPO = document.getElementById('cell-pO')
     let doesAIStartButton = document.getElementById('AI_first')
+    let minimaxButton = document.getElementById('minimax')
+    let DQNButton = document.getElementById('dqn')
     let grid = document.querySelector('.grid')
     let squares
     let currentPlayer
@@ -159,9 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function AI_play(player) {
 
         let game = convertDivToGame()
+        let index
 
-        let index = decision(game, player)
-        // let index = TF_decision(game, player)
+        if (minimaxButton.checked) index = decision(game, player)
+        else if (DQNButton.checked) index = TF_decision(game, player)
 
         console.log("AI plays", index)
 
