@@ -1,1 +1,2 @@
 https://github.com/JoshVarty/AlphaZeroSimple
+https://medium.com/mlearning-ai/mastering-tictactoe-with-alphazero-cc28998bf36c
