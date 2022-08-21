@@ -6,11 +6,13 @@ Web interfaces in HTML, css and javascript for
 2. 4-in-a-row
 3. Tetris
 
-This repository is a collection of AI algorithm to play games. The currently implemented ones are
+This repository is a collection of AI algorithm to play games. 
+
+The implemented algorithms are
 
 
-| Game        | minimax                        | MCTS               | AlphaZero-like NN  |
-| ----------- | -----------------------------  | ------------------ | ------------------ |
-| Tic-Tac-Toe | :heavy_check_mark: full depth  | :white_check_mark: | :heavy_check_mark: |
-| 4-in-a-row  | :heavy_check_mark: depth=4     | :white_check_mark: | :white_check_mark: |
-| 4-in-a-row  | :white_check_mark:             | :white_check_mark: | :white_check_mark: |
+| Game        | minimax                        | MCTS               | AlphaZero-like NN  | DQN                |
+| ----------- | -----------------------------  | ------------------ | ------------------ | ------------------ |
+| Tic-Tac-Toe | :heavy_check_mark: full depth  | :white_check_mark: | :heavy_check_mark: | :heavy_cross_mark: |
+| 4-in-a-row  | :heavy_check_mark: depth=4     | :white_check_mark: | :white_check_mark: | :heavy_cross_mark: |
+| 4-in-a-row  | :white_check_mark:             | :white_check_mark: | :white_check_mark: | :heavy_cross_mark: |
