@@ -16,3 +16,16 @@ The implemented algorithms are
 | Tic-Tac-Toe | :heavy_check_mark: full depth  | :white_check_mark: | :heavy_check_mark: | not suitable       |
 | 4-in-a-row  | :heavy_check_mark: depth=4     | :white_check_mark: | :white_check_mark: | not suitable       |
 | Tetris      | :white_check_mark:             | :white_check_mark: | not suitable       | :white_check_mark: |
+
+
+
+## Alpha-zero references
+
+<p align="center">
+<img alt="missing image" src="img/alpha_go_zero_cheat_sheet.png">
+</p>
+
+https://medium.com/mlearning-ai/mastering-tictactoe-with-alphazero-cc28998bf36c
+
+https://github.com/JoshVarty/AlphaZeroSimple
+
