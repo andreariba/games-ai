@@ -21,11 +21,12 @@ The implemented algorithms are
 
 ## Alpha-zero references
 
+1. David Foster's Cheat sheet
 <p align="center">
 <img alt="missing image" src="img/alpha_go_zero_cheat_sheet.png">
 </p>
 
-https://medium.com/mlearning-ai/mastering-tictactoe-with-alphazero-cc28998bf36c
+2. Brief overview on the idea's behind AlphaZero, https://medium.com/mlearning-ai/mastering-tictactoe-with-alphazero-cc28998bf36c
 
-https://github.com/JoshVarty/AlphaZeroSimple
+3. Nicely written implementation of AlphaZero for the Connect 2 game from Josh Varty, instructive and easy to follow https://github.com/JoshVarty/AlphaZeroSimple
 
