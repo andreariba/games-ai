@@ -1,15 +1,10 @@
 #!/bin/bash
 
-TTT_model_player_1="saved_model/TTT_model_player_1/"
-TTT_model_player_2="saved_model/TTT_model_player_2/"
 
-target_folder_model_player_1="TTT_models_js/TTT_model_player_1/"
-target_folder_model_player_2="TTT_models_js/TTT_model_player_2/"
+TTT_alpha_zero_model="saved_model/alpha_zero_model/"
 
-tensorflowjs_converter --input_format tf_saved_model \
-                       ${TTT_model_player_1} \
-                       ${target_folder_model_player_1}
+target_folder_alpha_zero_model="TTT_models_js/alpha_zero_model"
 
 tensorflowjs_converter --input_format tf_saved_model \
-                       ${TTT_model_player_2} \
-                       ${target_folder_model_player_2}
+                       ${TTT_alpha_zero_model} \
+                       ${target_folder_alpha_zero_model}

@@ -7,14 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
     var tf_model_player_2
 
     async function loadTFModels() {
-        tf_model_player_1 = await tf.loadGraphModel('http://localhost:8080/tf_models/TTT_models_js/TTT_model_player_1/model.json')
-        tf_model_player_2 = await tf.loadGraphModel('http://localhost:8080/tf_models/TTT_models_js/TTT_model_player_2/model.json')
 
-        let test_output_1 = await tf_model_player_1.predict(tf.tensor([[0, 0, 0, 0, 0, 0, 0, 2, 1]]))
-        let test_output_2 = await tf_model_player_2.predict(tf.tensor([[0, 1, 2, 1, 0, 0, 0, 0, 0]]))
+        tf_alpha_zero_model = await tf.loadGraphModel('http://localhost:8080/tf_models/TTT_models_js/alpha_zero_model/model.json')
+        let test_output = await tf_alpha_zero_model.predict(tf.tensor2d([0.0, -1.0, 1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0], [1, 9], 'float32'))
+        console.log("[Test AlphaZero model]:", test_output.arraySync())
 
-        console.log("[Test model player 1]:", test_output_1.arraySync())
-        console.log("[Test model player 2]:", test_output_2.arraySync())
+        // tf_model_player_1 = await tf.loadGraphModel('http://localhost:8080/tf_models/TTT_models_js/TTT_model_player_1/model.json')
+        // tf_model_player_2 = await tf.loadGraphModel('http://localhost:8080/tf_models/TTT_models_js/TTT_model_player_2/model.json')
+
+        // let test_output_1 = await tf_model_player_1.predict(tf.tensor([[0, 0, 0, 0, 0, 0, 0, 2, 1]]))
+        // let test_output_2 = await tf_model_player_2.predict(tf.tensor([[0, 1, 2, 1, 0, 0, 0, 0, 0]]))
+
+        // console.log("[Test model player 1]:", test_output_1.arraySync())
+        // console.log("[Test model player 2]:", test_output_2.arraySync())
 
         // return { tf_model_player_1, tf_model_player_2 }
     }

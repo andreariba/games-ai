@@ -1,9 +1,6 @@
 import numpy as np
 import tensorflow as tf
 
-# from MCTS import MCTS
-# from model import create_model
-
 
 class Trainer:
     def __init__(self, game, mcts, model):
@@ -12,7 +9,7 @@ class Trainer:
         self.game_p = game
         # self.game = None
         self.mcts_p = mcts
-        self.mcts_sims = 50
+        self.mcts_sims = 500
         self.optimizer = None
         self.losses = []
 
@@ -104,66 +101,111 @@ class Trainer:
 
         return dataset
 
-    def train(
-        self, n_epochs=1000, n_games_per_epoch=10, learning_rate=1e-4, l2_weight=1e-4
-    ):
+    # def train_old(
+    #     self, n_epochs=1000, n_games_per_epoch=10, learning_rate=1e-4, l2_weight=1e-4
+    # ):
+
+    #     self.losses = []
+    #     p_loss_fn = tf.keras.losses.CategoricalCrossentropy()
+    #     v_loss_fn = tf.keras.losses.MeanSquaredError()
+
+    #     self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+    #     temperatures = np.linspace(1, 0.01, n_epochs)
+
+    #     for epoch in range(n_epochs):
+
+    #         dataset = self.create_dataset(
+    #             number_of_games=n_games_per_epoch, temperature=temperatures[epoch]
+    #         )
+
+    #         boards, estimated_pis, estimated_vs = list(zip(*dataset))
+
+    #         boards = tf.concat([b[np.newaxis, :] for b in boards], axis=0)
+    #         estimated_pis = tf.concat([p[np.newaxis, :] for p in estimated_pis], axis=0)
+
+    #         estimated_pis = tf.cast(estimated_pis, dtype=tf.float32)
+    #         estimated_vs = tf.constant(estimated_vs, dtype=tf.float32)
+
+    #         with tf.GradientTape() as tape:
+
+    #             predicted_pis, predicted_vs = self.model(boards)
+
+    #             p_losses = p_loss_fn(estimated_pis, predicted_pis)
+    #             # print(predicted_vs[:,0]-estimated_vs)
+    #             # print( predicted_vs[:,0]-estimated_vs)
+    #             v_losses = v_loss_fn(predicted_vs, estimated_vs)
+    #             print(p_losses)
+    #             print(v_losses)
+    #             l2_loss = tf.add_n(
+    #                 [tf.nn.l2_loss(v) for v in self.model.trainable_variables]
+    #             )
+
+    #             loss_values = p_losses + v_losses + l2_weight * l2_loss
+
+    #         grads = tape.gradient(loss_values, self.model.trainable_variables)
+    #         self.optimizer.apply_gradients(zip(grads, self.model.trainable_variables))
+    #         total_loss = tf.reduce_mean(loss_values)
+
+    #         diff_pis = tf.reduce_mean(tf.math.square(predicted_pis - estimated_pis))
+    #         diff_vs = tf.reduce_mean(tf.math.square(predicted_vs[:, 0] - estimated_vs))
+
+    #         self.losses.append(total_loss)
+    #         print(
+    #             f"Epoch {epoch+1}, loss={total_loss}, l2={l2_loss}, p={diff_pis}, v={diff_vs}, T={temperatures[epoch]}"
+    #         )
+
+    def train(self, dataset, n_epochs=1000, batch_size=20, learning_rate=1e-4):
 
         self.losses = []
 
-        self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
-        temperatures = np.linspace(1, 0.01, n_epochs)
+        # self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
 
-        for epoch in range(n_epochs):
+        boards, estimated_pis, estimated_vs = list(zip(*dataset))
 
-            dataset = self.create_dataset(
-                number_of_games=n_games_per_epoch, temperature=temperatures[epoch]
-            )
+        boards = tf.concat([b[np.newaxis, :] for b in boards], axis=0)
+        estimated_pis = tf.concat([p[np.newaxis, :] for p in estimated_pis], axis=0)
 
-            boards, estimated_pis, estimated_vs = list(zip(*dataset))
+        estimated_pis = tf.cast(estimated_pis, dtype=tf.float32)
+        estimated_vs = tf.constant(estimated_vs, dtype=tf.float32)
 
-            boards = tf.concat([b[np.newaxis, :] for b in boards], axis=0)
-            estimated_pis = tf.concat([p[np.newaxis, :] for p in estimated_pis], axis=0)
+        # tf_dataset = (
+        #     tf.data.Dataset.from_tensor_slices((boards, (estimated_pis, estimated_vs)))
+        #     .shuffle(100)
+        #     .batch(batch_size)
+        # )
 
-            estimated_pis = tf.cast(estimated_pis, dtype=tf.float32)
-            estimated_vs = tf.constant(estimated_vs, dtype=tf.float32)
+        # test_dataset = tf_dataset.take(1000)
+        # train_dataset = tf_dataset.skip(1000)
 
-            with tf.GradientTape() as tape:
+        self.model.compile(
+            # Optimizer
+            optimizer=tf.keras.optimizers.RMSprop(learning_rate=learning_rate),
+            # Loss function to minimize
+            loss=[
+                tf.keras.losses.CategoricalCrossentropy(),
+                tf.keras.losses.MeanSquaredError(),
+            ],
+            # List of metrics to monitor
+            metrics=[tf.keras.metrics.MeanSquaredError()],
+            run_eagerly=False,
+        )
 
-                predicted_pis, predicted_vs = self.model(boards)
+        def scheduler(epoch, lr):
+            if epoch < 10:
+                return lr
+            else:
+                return lr * tf.math.exp(-0.1 * epoch)
 
-                # print(predicted_pis, estimated_pis)
-                # print(predicted_vs, estimated_vs)
-
-                # compute the log of the predicted pis and delete the inf
-                log_predicted_pis = tf.math.log(predicted_pis)
-                log_predicted_pis = tf.where(
-                    tf.math.is_inf(log_predicted_pis),
-                    tf.zeros_like(log_predicted_pis),
-                    log_predicted_pis,
-                )
-
-                # rint(tf.cast(estimated_pis, dtype=tf.float32 ) * log_predicted_pis)
-
-                # pprint(tf.reduce_sum(tf.cast(estimated_pis, dtype=tf.float32 ) * log_predicted_pis,axis=1))
-                p_losses = -tf.reduce_sum(estimated_pis * log_predicted_pis, axis=1)
-                # print(predicted_vs[:,0]-estimated_vs)
-                # print( predicted_vs[:,0]-estimated_vs)
-                v_losses = tf.math.square(predicted_vs[:, 0] - estimated_vs)
-
-                l2_loss = tf.add_n(
-                    [tf.nn.l2_loss(v) for v in self.model.trainable_variables]
-                )
-
-                loss_values = p_losses + v_losses + l2_weight * l2_loss
-
-            grads = tape.gradient(loss_values, self.model.trainable_variables)
-            self.optimizer.apply_gradients(zip(grads, self.model.trainable_variables))
-            total_loss = tf.reduce_mean(loss_values)
-
-            diff_pis = tf.reduce_mean(tf.math.square(predicted_pis - estimated_pis))
-            diff_vs = tf.reduce_mean(tf.math.square(predicted_vs[:, 0] - estimated_vs))
-
-            self.losses.append(total_loss)
-            print(
-                f"Epoch {epoch+1}, loss={total_loss}, l2={l2_loss}, p={diff_pis}, v={diff_vs}, T={temperatures[epoch]}"
-            )
+        self.model.fit(
+            x=boards,
+            y=(estimated_pis, estimated_vs),
+            epochs=n_epochs,
+            batch_size=batch_size,
+            callbacks=[
+                tf.keras.callbacks.EarlyStopping(
+                    monitor="loss", patience=20, restore_best_weights=True
+                ),
+                tf.keras.callbacks.LearningRateScheduler(scheduler),
+            ],
+            use_multiprocessing=True,
+        )
