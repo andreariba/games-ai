@@ -11,7 +11,7 @@ This repository is a collection of AI algorithm to play games.
 The implemented algorithms are
 
 
-| Game        | minimax                        | Monte Carlo Tree Search | AlphaZero-like NN  | DQN                |
+| Game        | minimax                        | Monte Carlo Tree Search | AlphaZero-like NN  | Deep Q-learning    |
 | :---------: | :----------------------------: | :---------------------: | :----------------: | :----------------: |
 | Tic-Tac-Toe | :heavy_check_mark: full depth  | :white_check_mark:      | :heavy_check_mark: js version coming | :white_check_mark: |
 | 4-in-a-row  | :heavy_check_mark: depth=4     | :white_check_mark:      | :white_check_mark: | :white_check_mark: |
