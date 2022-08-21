@@ -13,7 +13,7 @@ The implemented algorithms are
 
 | Game        | minimax                        | MCTS               | AlphaZero-like NN  | DQN                |
 | :---------: | :----------------------------: | :----------------: | :----------------: | :----------------: |
-| Tic-Tac-Toe | :heavy_check_mark: full depth  | :white_check_mark: | :heavy_check_mark: | :white_check_mark: |
+| Tic-Tac-Toe | :heavy_check_mark: full depth  | :white_check_mark: | :heavy_check_mark: js version down | :white_check_mark: |
 | 4-in-a-row  | :heavy_check_mark: depth=4     | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Tetris      | :white_check_mark:             | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
