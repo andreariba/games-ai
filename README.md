@@ -25,14 +25,14 @@ Since the simplicity behind the algorithm, I strongly recommend to read the Wiki
 
 ## Alpha-zero references
 
-1. David Foster's Cheat sheet, https://medium.com/applied-data-science/alphago-zero-explained-in-one-diagram-365f5abf67e0
+1. David Foster's Cheat sheet, https://medium.com/applied-data-science/alphago-zero-explained-in-one-diagram-365f5abf67e0.
 <p align="center">
 <img alt="missing image" src="img/alpha_go_zero_cheat_sheet.png">
 </p>
 
 2. Brief overview on the idea's behind AlphaZero, https://medium.com/mlearning-ai/mastering-tictactoe-with-alphazero-cc28998bf36c
 
-3. Nicely written implementation of AlphaZero for the Connect 2 game from Josh Varty, instructive and easy to follow https://github.com/JoshVarty/AlphaZeroSimple
+3. Nicely written implementation of AlphaZero for the Connect 2 game by Josh Varty, instructive and easy to follow, https://github.com/JoshVarty/AlphaZeroSimple.
 
 4. The original Nature's paper from AlphaZero to get into some of the details about the structure of the network and the parameters for the training, https://www.nature.com/articles/nature24270.
 
