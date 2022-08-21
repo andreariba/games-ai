@@ -34,3 +34,5 @@ Since the simplicity behind the algorithm, I strongly recommend to read the Wiki
 
 3. Nicely written implementation of AlphaZero for the Connect 2 game from Josh Varty, instructive and easy to follow https://github.com/JoshVarty/AlphaZeroSimple
 
+4. The original Nature's paper from AlphaZero to get into some of the details about the structure of the network and the parameters for the training, https://www.nature.com/articles/nature24270.
+
