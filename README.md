@@ -18,10 +18,14 @@ The implemented algorithms are
 | Tetris      | :white_check_mark:             | :white_check_mark: | not suitable       | :white_check_mark: |
 
 
+## minimax references
+
+Since the simplicity behind the algorithm, I strongly recommend to read the Wiki page relative to the minimax, https://en.wikipedia.org/wiki/Minimax
+
 
 ## Alpha-zero references
 
-1. David Foster's Cheat sheet
+1. David Foster's Cheat sheet, https://medium.com/applied-data-science/alphago-zero-explained-in-one-diagram-365f5abf67e0
 <p align="center">
 <img alt="missing image" src="img/alpha_go_zero_cheat_sheet.png">
 </p>
