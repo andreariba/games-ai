@@ -3,7 +3,7 @@
 Web interface to play Tic-Tac-Toe, it includes the possibilities to decide who starts the game and to change AI algorithms.
 
 <p align="center">
-![missing image](./img/tic-tac-toe.png)
+<img alt="missing image" src="img/tic-tac-toe.png">
 </p>
 
 ## AI players
@@ -23,7 +23,7 @@ The details on the implementation can be found in the subfolder tf_models/ and t
 
 The current results from the neural network trained on only 1000 games are almost perfect see figure below.
 <p align="center">
-![missing image](./img/AlphaZero_results.svg)
+<img alt="missing image" src="img/AlphaZero_results.svg">
 </p>
 
 The AI wins most of the games against a random player playing both X and O, and get a draw in a match against itself.
