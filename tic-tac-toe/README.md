@@ -23,5 +23,5 @@ The details on the implementation can be found in the subfolder tf_models/ and t
 
 
 <p align="center">
-![missing image](tf_models/AlphaZero_results_readme.svg)
+![missing image](img/AlphaZero_results.svg)
 </p>
