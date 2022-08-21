@@ -16,9 +16,6 @@ class Trainer:
     def save_model(self):
         self.model.save("saved_model/alpha_zero_model")
 
-    def load_model(self):
-        self.model = self.model.load_model("saved_model/alpha_zero_model")
-
     def create_dataset(self, number_of_games, temperature):
 
         dataset = []
@@ -100,59 +97,6 @@ class Trainer:
                     dataset += ret
 
         return dataset
-
-    # def train_old(
-    #     self, n_epochs=1000, n_games_per_epoch=10, learning_rate=1e-4, l2_weight=1e-4
-    # ):
-
-    #     self.losses = []
-    #     p_loss_fn = tf.keras.losses.CategoricalCrossentropy()
-    #     v_loss_fn = tf.keras.losses.MeanSquaredError()
-
-    #     self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
-    #     temperatures = np.linspace(1, 0.01, n_epochs)
-
-    #     for epoch in range(n_epochs):
-
-    #         dataset = self.create_dataset(
-    #             number_of_games=n_games_per_epoch, temperature=temperatures[epoch]
-    #         )
-
-    #         boards, estimated_pis, estimated_vs = list(zip(*dataset))
-
-    #         boards = tf.concat([b[np.newaxis, :] for b in boards], axis=0)
-    #         estimated_pis = tf.concat([p[np.newaxis, :] for p in estimated_pis], axis=0)
-
-    #         estimated_pis = tf.cast(estimated_pis, dtype=tf.float32)
-    #         estimated_vs = tf.constant(estimated_vs, dtype=tf.float32)
-
-    #         with tf.GradientTape() as tape:
-
-    #             predicted_pis, predicted_vs = self.model(boards)
-
-    #             p_losses = p_loss_fn(estimated_pis, predicted_pis)
-    #             # print(predicted_vs[:,0]-estimated_vs)
-    #             # print( predicted_vs[:,0]-estimated_vs)
-    #             v_losses = v_loss_fn(predicted_vs, estimated_vs)
-    #             print(p_losses)
-    #             print(v_losses)
-    #             l2_loss = tf.add_n(
-    #                 [tf.nn.l2_loss(v) for v in self.model.trainable_variables]
-    #             )
-
-    #             loss_values = p_losses + v_losses + l2_weight * l2_loss
-
-    #         grads = tape.gradient(loss_values, self.model.trainable_variables)
-    #         self.optimizer.apply_gradients(zip(grads, self.model.trainable_variables))
-    #         total_loss = tf.reduce_mean(loss_values)
-
-    #         diff_pis = tf.reduce_mean(tf.math.square(predicted_pis - estimated_pis))
-    #         diff_vs = tf.reduce_mean(tf.math.square(predicted_vs[:, 0] - estimated_vs))
-
-    #         self.losses.append(total_loss)
-    #         print(
-    #             f"Epoch {epoch+1}, loss={total_loss}, l2={l2_loss}, p={diff_pis}, v={diff_vs}, T={temperatures[epoch]}"
-    #         )
 
     def train(self, dataset, n_epochs=1000, batch_size=20, learning_rate=1e-4):
 
