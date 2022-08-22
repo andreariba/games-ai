@@ -19,24 +19,24 @@ def create_az_model():
 
     kernel_regularizer = tf.keras.regularizers.L2(1e-4)
 
-    inputs = tf.keras.layers.Input((9))
+    inputs = tf.keras.layers.Input((42))
 
     # One-Hot encoding
-    onehot_inputs = tf.cast(tf.one_hot(tf.cast(inputs + 1, tf.int32), 3), tf.float32)
+    x = tf.cast(tf.one_hot(tf.cast(inputs + 1, tf.int32), 3), tf.float32)
 
     # Residual tower
-    x = tf.reshape(onehot_inputs, (-1, 3, 3, 3))
+    x = tf.reshape(x, (-1, 3, 3, 3))
     x = tf.keras.layers.Conv2D(
         filters=3**5, kernel_size=(3, 3), kernel_regularizer=kernel_regularizer
     )(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
-    # x = tf.keras.layers.Conv2D(
-    #     filters=3**5, kernel_size=1, kernel_regularizer=kernel_regularizer
-    # )(x)
-    # x = tf.keras.layers.BatchNormalization()(x)
+    x = tf.keras.layers.Conv2D(
+        filters=3**5, kernel_size=1, kernel_regularizer=kernel_regularizer
+    )(x)
+    x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.Flatten()(x)
-    flatten_inputs = tf.keras.layers.Flatten()(onehot_inputs)
+    flatten_inputs = tf.keras.layers.Flatten()(inputs)
     x = tf.concat([flatten_inputs, x], axis=1)
     residual_tower = tf.keras.layers.ReLU(name="residual_tower")(x)
 
