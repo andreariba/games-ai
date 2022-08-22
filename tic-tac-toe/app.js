@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadTFModels() {
 
-        tf_alpha_zero_model = await tf.loadGraphModel('http://localhost:8080/tf_models/TTT_models_js/alpha_zero_model/model.json')
+        // tf_alpha_zero_model = await tf.loadGraphModel('http://localhost:8080/tf_models/TTT_models_js/alpha_zero_model/model.json')
+        tf_alpha_zero_model = await tf.loadModel('http://localhost:8080/tf_models/TTT_models_js/alpha_zero_model/model.json')
         let test_output = await tf_alpha_zero_model.predict(tf.tensor2d([0.0, -1.0, 1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0], [1, 9], 'float32'))
         console.log("[Test AlphaZero model]:", test_output.arraySync())
 
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let cellPO = document.getElementById('cell-pO')
     let doesAIStartButton = document.getElementById('AI_first')
     let minimaxButton = document.getElementById('minimax')
-    let DQNButton = document.getElementById('dqn')
+    let AlphaZeroButton = document.getElementById('alphazero')
     let grid = document.querySelector('.grid')
     let squares
     let currentPlayer
@@ -159,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let index
 
         if (minimaxButton.checked) index = decision(game, player)
-        else if (DQNButton.checked) index = TF_decision(game, player)
+        else if (AlphaZeroButton.checked) index = TF_decision(game, player)
 
         console.log("AI plays", index)
 

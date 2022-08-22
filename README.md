@@ -13,9 +13,9 @@ The implemented algorithms are
 
 | Game        | minimax                        | Monte Carlo Tree Search | AlphaZero-like NN  | Deep Q-learning    |
 | :---------: | :----------------------------: | :---------------------: | :----------------: | :----------------: |
-| Tic-Tac-Toe | :heavy_check_mark: full depth  | :white_check_mark:      | :heavy_check_mark: js version coming | :white_check_mark: |
-| 4-in-a-row  | :heavy_check_mark: depth=4     | :white_check_mark:      | :white_check_mark: | :white_check_mark: |
-| Tetris      | :white_check_mark:             | :white_check_mark:      | :white_check_mark: | :white_check_mark: |
+| Tic-Tac-Toe | :heavy_check_mark: full depth  | in progress             | :heavy_check_mark: js version coming | in progress        |
+| 4-in-a-row  | :heavy_check_mark: depth=4     | in progress             | in progress        | in progress        |
+| Tetris      | in progress                    | in progress             | in progress        | in progress        |
 
 
 ## minimax references
