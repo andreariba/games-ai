@@ -16,89 +16,89 @@ class Trainer:
     def save_model(self):
         self.model.save("saved_model/alpha_zero_model")
 
-    def create_dataset_original(self, number_of_games, temperature):
+    # def create_dataset_original(self, number_of_games, temperature):
 
-        dataset = []
+    #     dataset = []
 
-        for n in range(number_of_games):
+    #     for n in range(number_of_games):
 
-            train_examples = []
+    #         train_examples = []
 
-            game = self.game_p()
-            current_player = 1
+    #         game = self.game_p()
+    #         current_player = 1
 
-            self.mcts = self.mcts_p(game=self.game_p(), n_simulations=self.mcts_sims)
-            root = None
+    #         self.mcts = self.mcts_p(game=self.game_p(), n_simulations=self.mcts_sims)
+    #         root = None
 
-            while game.status == "Ongoing":
+    #         while game.status == "Ongoing":
 
-                # extract the current board from the POV of the current player
-                current_state_from_player_POV = game.get_board_from_player(
-                    current_player
-                )
-                current_state = game.get_board_from_player(player=1)
-                print(f"{current_state.reshape(6,7)}")
+    #             # extract the current board from the POV of the current player
+    #             current_state_from_player_POV = game.get_board_from_player(
+    #                 current_player
+    #             )
+    #             current_state = game.get_board_from_player(player=1)
+    #             print(f"{current_state.reshape(6,7)}")
 
-                # run the MCTS
-                root = self.mcts.run(
-                    self.model, current_state_from_player_POV, current_player, root
-                )
+    #             # run the MCTS
+    #             root = self.mcts.run(
+    #                 self.model, current_state_from_player_POV, current_player, root
+    #             )
 
-                # extract the probabilities estimated from MCTS
-                estimated_probabilities = np.zeros(game.get_action_size())
-                for action, child in root.children.items():
-                    estimated_probabilities[action] = child.visit_count
-                estimated_probabilities /= estimated_probabilities.sum()
+    #             # extract the probabilities estimated from MCTS
+    #             estimated_probabilities = np.zeros(game.get_action_size())
+    #             for action, child in root.children.items():
+    #                 estimated_probabilities[action] = child.visit_count
+    #             estimated_probabilities /= estimated_probabilities.sum()
 
-                # extract the value from MCTS (NOT NEEDED)
-                estimated_value = root.value()
+    #             # extract the value from MCTS (NOT NEEDED)
+    #             estimated_value = root.value()
 
-                train_examples.append(
-                    (
-                        current_state_from_player_POV,
-                        current_player,
-                        estimated_probabilities,
-                    )
-                )
+    #             train_examples.append(
+    #                 (
+    #                     current_state_from_player_POV,
+    #                     current_player,
+    #                     estimated_probabilities,
+    #                 )
+    #             )
 
-                # print(f"Probs:{estimated_probabilities}\nValue:{estimated_value}")
+    #             # print(f"Probs:{estimated_probabilities}\nValue:{estimated_value}")
 
-                # take an action
-                action = root.select_action(temperature=temperature)
-                next_state, current_player = game.next_state(
-                    board=current_state, player=current_player, action=action
-                )
+    #             # take an action
+    #             action = root.select_action(temperature=temperature)
+    #             next_state, current_player = game.next_state(
+    #                 board=current_state, player=current_player, action=action
+    #             )
 
-                reward = game.get_reward_for_player(
-                    board=next_state, player=current_player
-                )
+    #             reward = game.get_reward_for_player(
+    #                 board=next_state, player=current_player
+    #             )
 
-                root = root.children[action]
+    #             root = root.children[action]
 
-                # print(f"{next_state.reshape(3,3)}")
-                print(
-                    f"Probs:{estimated_probabilities}\nValue:{estimated_value}\nReward:{reward}"
-                )
+    #             # print(f"{next_state.reshape(3,3)}")
+    #             print(
+    #                 f"Probs:{estimated_probabilities}\nValue:{estimated_value}\nReward:{reward}"
+    #             )
 
-                if reward is not None:
-                    ret = []
-                    for (
-                        historical_board,
-                        historical_player,
-                        historical_probs,
-                    ) in train_examples:
-                        ret.append(
-                            (
-                                historical_board,
-                                historical_probs,
-                                reward
-                                * ((-1) ** (historical_player != current_player)),
-                            )
-                        )
+    #             if reward is not None:
+    #                 ret = []
+    #                 for (
+    #                     historical_board,
+    #                     historical_player,
+    #                     historical_probs,
+    #                 ) in train_examples:
+    #                     ret.append(
+    #                         (
+    #                             historical_board,
+    #                             historical_probs,
+    #                             reward
+    #                             * ((-1) ** (historical_player != current_player)),
+    #                         )
+    #                     )
 
-                    dataset += ret
+    #                 dataset += ret
 
-        return dataset
+    #     return dataset
 
     def create_dataset(self, number_of_games, temperature):
 
@@ -239,3 +239,4 @@ class Trainer:
             ],
             use_multiprocessing=True,
         )
+

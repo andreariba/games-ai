@@ -110,11 +110,14 @@ class MCTS:
             state = root.state.copy()
 
         if not root.expanded() and not root.is_leaf():
-            ps, v = model.predict(state[np.newaxis, :])
-            mask_actions = self.game.get_available_actions(state)
-            ps = ps.flatten() * mask_actions
+            if model is None:
+                ps = self.game.get_available_actions(state)
+            else:
+                ps, v = model.predict(state[np.newaxis, :])
+                mask_actions = self.game.get_available_actions(state)
+                ps = ps.flatten() * mask_actions
             ps = ps / np.sum(ps)
-            v = v.flatten()
+            # v = v.flatten()
 
             root.expand(state, player, ps)
 
@@ -149,11 +152,14 @@ class MCTS:
             if value is None:
 
                 # compute the probabilities and value from the model
-                ps, v = model.predict(next_state[np.newaxis, :])
-                mask_actions = self.game.get_available_actions(next_state)
-                ps = ps.flatten() * mask_actions
+                if model is None:
+                    ps = self.game.get_available_actions(state)
+                else:
+                    ps, v = model.predict(next_state[np.newaxis, :])
+                    mask_actions = self.game.get_available_actions(next_state)
+                    ps = ps.flatten() * mask_actions
                 ps = ps / np.sum(ps)
-                v = v.flatten()
+                # v = v.flatten()
 
                 # since the game is not over expand the node to its child
                 node.expand(next_state, parent.player * -1, ps)
