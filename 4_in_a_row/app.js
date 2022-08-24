@@ -6,7 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadTFModels() {
 
         let test_input = tf.tensor2d([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, -1.0, 1.0, 0.0, 1.0, -1.0], [1, 42], 'float32')
-        tf_alpha_zero_model = await tf.loadGraphModel('http://localhost:8080/4_in_a_row/tf_models/models_js/alpha_zero_model/model.json')
+
+        let model_location
+
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+            model_location = "http://localhost:8080/4_in_a_row/tf_models/models_js/alpha_zero_model/model.json"
+        } else {
+            model_location = "4_in_a_row/tf_models/models_js/alpha_zero_model/model.json"
+        }
+
+        tf_alpha_zero_model = await tf.loadGraphModel(model_location)
         let test_output = await tf_alpha_zero_model.predict(test_input)
 
         console.log("[Test AlphaZero model ps]:", test_output[0].arraySync())
