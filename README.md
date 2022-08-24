@@ -6,17 +6,15 @@ Web interfaces in HTML, css and javascript for
 2. 4-in-a-row
 3. Tetris
 
-This repository is a collection of AI algorithm to play games, you can play them at https://andreariba.github.io/games-ai
-
-The implemented algorithms are
-
+This repository is a collection of AI algorithm to play games, you can play them at https://andreariba.github.io/games-ai. The implemented algorithms are
 
 | Game        | minimax                        | Monte Carlo Tree Search | AlphaZero-like NN  | Deep Q-learning    |
 | :---------: | :----------------------------: | :---------------------: | :----------------: | :----------------: |
-| Tic-Tac-Toe | :heavy_check_mark: full depth  | in progress             | :heavy_check_mark: js version coming | not planned      |
-| 4-in-a-row  | :heavy_check_mark: depth=4     | in progress             | in progress        | not planned     |
+| Tic-Tac-Toe | :heavy_check_mark: full depth  | in progress             | :heavy_check_mark: | not planned      |
+| 4-in-a-row  | :heavy_check_mark: depth=4     | in progress             | :heavy_check_mark: | not planned     |
 | Tetris      | not planned                    | in progress             | in progress        | in progress        |
 
+The AlphaZero-like AI are still in a preliminary state, working on improving them.
 
 ## minimax references
 
