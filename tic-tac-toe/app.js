@@ -3,18 +3,17 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    var tf_model_player_1
-    var tf_model_player_2
+    var tf_alpha_zero_model
 
     async function loadTFModels() {
 
         const test_tensor = tf.tensor2d([0.0, -1.0, 1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0], [1, 9], 'float32')
-        console.log(test_tensor)
+        console.log("[Test TFJS tensor]:", test_tensor)
 
-        tf_alpha_zero_model = await tf.loadGraphModel('http://localhost:8080/tf_models/TTT_models_js/alpha_zero_model/model.json')
-        // tf_alpha_zero_model = await tf.loadModel('http://localhost:8080/tf_models/TTT_models_js/alpha_zero_model/model.json')
+        tf_alpha_zero_model = await tf.loadGraphModel('http://localhost:8080/tic-tac-toe/tf_models/TTT_models_js/alpha_zero_model/model.json')
         let test_output = await tf_alpha_zero_model.predict(tf.tensor2d([0.0, -1.0, 1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0], [1, 9], 'float32'))
-        console.log("[Test AlphaZero model]:", test_output.arraySync())
+        console.log("[Test AlphaZero model ps]:", test_output[1].arraySync())
+        console.log("[Test AlphaZero model v]:", test_output[0].arraySync())
 
     }
 
@@ -246,24 +245,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let model_prediction
         let move = -1
-        let max_reward = -1
 
-        if (player === 1) {
-            model_prediction = tf_model_player_1.predict(tf.tensor([game])).arraySync()[0]
-        } else if (player === 2) {
-            model_prediction = tf_model_player_2.predict(tf.tensor([game])).arraySync()[0]
-        }
 
-        console.log("[TF model]", model_prediction)
+        let player_pov_game = game.map(el => { if (el === 2) { el = -1 * player } else { el = el * player }; return el; })
+        console.log(player_pov_game)
 
-        for (let i = 0; i < game.length; i++) {
-            if (game[i] === 0) {
-                if (model_prediction[i] > max_reward) {
-                    move = i
-                    max_reward = model_prediction[i]
-                }
-            }
-        }
+        model_prediction = tf_alpha_zero_model.predict(tf.tensor2d(player_pov_game, [1, 9], 'float32'))
+        console.log(model_prediction)
+        ps = model_prediction[1].arraySync()[0]
+        v = model_prediction[0].arraySync()[0]
+        console.log("[TF model]", ps, v)
+
+        move = ps.indexOf(Math.max(...ps))
 
         return move
     }

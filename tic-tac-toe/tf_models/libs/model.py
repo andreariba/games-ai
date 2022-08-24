@@ -74,9 +74,9 @@ def create_az_model():
 
     model = tf.keras.Model(inputs=inputs, outputs=outputs, name="tictactoe_model")
 
-    # zero_weights = []
-    # for arr in model.get_weights():
-    #     zero_weights.append(np.zeros(arr.shape))
-    # model.set_weights(zero_weights)
+    zero_weights = []
+    for arr in model.get_weights():
+        zero_weights.append(np.zeros(arr.shape))
+    model.set_weights(zero_weights)
 
     return model

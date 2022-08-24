@@ -25,14 +25,14 @@ def create_az_model():
     x = tf.cast(tf.one_hot(tf.cast(inputs + 1, tf.int32), 3), tf.float32)
 
     # Residual tower
-    x = tf.reshape(x, (-1, 3, 3, 3))
+    x = tf.reshape(x, (-1, 6, 7, 3))
     x = tf.keras.layers.Conv2D(
-        filters=3**5, kernel_size=(3, 3), kernel_regularizer=kernel_regularizer
+        filters=256, kernel_size=(4, 4), kernel_regularizer=kernel_regularizer
     )(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
     x = tf.keras.layers.Conv2D(
-        filters=3**5, kernel_size=1, kernel_regularizer=kernel_regularizer
+        filters=256, kernel_size=(2, 3), kernel_regularizer=kernel_regularizer
     )(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.Flatten()(x)
@@ -48,7 +48,7 @@ def create_az_model():
     x = tf.keras.layers.ReLU()(x)
     x = tf.keras.layers.Flatten()(x)
     p = tf.keras.layers.Dense(
-        9,
+        7,
         activation=tf.keras.activations.softmax,
         kernel_regularizer=kernel_regularizer,
         name="policy",
@@ -72,7 +72,7 @@ def create_az_model():
 
     outputs = p, v
 
-    model = tf.keras.Model(inputs=inputs, outputs=outputs, name="tictactoe_model")
+    model = tf.keras.Model(inputs=inputs, outputs=outputs, name="fiar_model")
 
     # zero_weights = []
     # for arr in model.get_weights():

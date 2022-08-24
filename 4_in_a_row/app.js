@@ -1,6 +1,21 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    var tf_alpha_zero_model
+
+    async function loadTFModels() {
+
+        let test_input = tf.tensor2d([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, -1.0, 1.0, 0.0, 1.0, -1.0], [1, 42], 'float32')
+        tf_alpha_zero_model = await tf.loadGraphModel('http://localhost:8080/4_in_a_row/tf_models/models_js/alpha_zero_model/model.json')
+        let test_output = await tf_alpha_zero_model.predict(test_input)
+
+        console.log("[Test AlphaZero model ps]:", test_output[0].arraySync())
+        console.log("[Test AlphaZero model v]:", test_output[1].arraySync())
+
+    }
+
+    loadTFModels()
+
     let arraySize = 42
     let width = 7
 
@@ -14,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let winnerSpan = document.getElementById('winner-span')
     let resetButton = document.getElementById('reset-button')
     let doesAIStartButton = document.getElementById('AI_first')
+    let minimaxButton = document.getElementById('minimax')
+    let AlphaZeroButton = document.getElementById('alphazero')
     let grid = document.querySelector('.grid')
     let squares
     let currentPlayer
@@ -133,7 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let game = convertDivToGame()
 
-        let index = decision(game, player)
+        let index
+        if (minimaxButton.checked) index = decision(game, player)
+        else if (AlphaZeroButton.checked) index = TF_decision(game, player)
 
         console.log("AI plays column ", index % width)
 
@@ -179,6 +198,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const randomElement = index[Math.floor(Math.random() * index.length)]
         return randomElement
     }
+
+    function TF_decision(game, player) {
+
+        let model_prediction
+        let move = -1
+
+
+        let player_pov_game = game.map(el => { if (el === 2) { el = -1 * player } else { el = el * player }; return el; })
+        console.log(player_pov_game)
+
+        model_prediction = tf_alpha_zero_model.predict(tf.tensor2d(player_pov_game, [1, arraySize], 'float32'))
+        console.log(model_prediction)
+        ps = model_prediction[0].arraySync()[0]
+        v = model_prediction[1].arraySync()[0]
+        console.log("[TF model]", ps, v)
+
+        let column = ps.indexOf(Math.max(...ps))
+
+
+        for (let cell = 42 - width + column; cell >= 0; cell -= width) {
+            if (game[cell] === 0) {
+                move = cell
+                break
+            }
+        }
+
+        return move
+    }
+
 
 
     function compute_minimax(game, maximizingPlayer, depth = 4) {

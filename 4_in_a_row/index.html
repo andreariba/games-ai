@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <script src="app.js" charset="UTF-8"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.20.0/dist/tf.min.js"></script>
     <link rel="stylesheet" href="style.css">
     </link>
     <!-- <link rel="shortcut icon" href="favicon.ico" /> -->
@@ -27,16 +27,16 @@
             <tbody>
                 <tr>
                     <td>
-                        <input type="radio" id="AI_first" name="first_player" value="AI" checked>
+                        <input type="radio" id="AI_first" name="first_player" value="AI">
                         <label for="AI_first">AI</label><br>
-                        <input type="radio" id="human_first" name="first_player" value=" human">
+                        <input type="radio" id="human_first" name="first_player" value=" human" checked>
                         <label for="human_first">human</label><br>
                     </td>
                     <td>
-                        <input type="radio" id="minimax" name="ai_algorithm" value="minimax" checked>
+                        <input type="radio" id="minimax" name="ai_algorithm" value="minimax">
                         <label for="minimax">minimax</label><br>
-                        <input type="radio" id="tensorflow" name="ai_algorithm" value="tensorflow" disabled>
-                        <label for="tensorflow">tensorflow</label><br>
+                        <input type="radio" id="alphazero" name="ai_algorithm" value="alphazero" checked>
+                        <label for="alphazero">AlphaZero</label><br>
                     </td>
                 </tr>
             </tbody>
