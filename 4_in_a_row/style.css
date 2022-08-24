@@ -8,8 +8,8 @@ body {
 
 .arrow-left {
     position: absolute;
-    top:5%;
-    left:3%;
+    top: 5%;
+    left: 3%;
     border: solid black;
     border-width: 0 10px 10px 0;
     display: inline-block;
@@ -40,15 +40,15 @@ body {
 }
 
 .empty {
-    background: radial-gradient(circle, transparent 60%, rgb(0, 67, 154) 60%);
+    background: radial-gradient(circle, transparent 60%, rgb(2, 117, 216) 60%);
 }
 
 .player1 {
-    background: radial-gradient(circle, red 60%, rgb(0, 67, 154) 60%);
+    background: radial-gradient(circle, red 60%, rgb(2, 117, 216) 60%);
 }
 
 .player2 {
-    background: radial-gradient(circle, yellow 60%, rgb(0, 67, 154) 60%);
+    background: radial-gradient(circle, yellow 60%, rgb(2, 117, 216) 60%);
 }
 
 .panel {
