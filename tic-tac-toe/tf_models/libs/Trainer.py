@@ -224,7 +224,7 @@ class Trainer:
             if epoch < 10:
                 return lr
             else:
-                return lr * tf.math.exp(-0.1 * epoch)
+                return lr * tf.math.exp(-0.05 * (epoch - 10))
 
         self.model.fit(
             x=boards,
@@ -239,4 +239,3 @@ class Trainer:
             ],
             use_multiprocessing=True,
         )
-
