@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             squares.forEach(square => {
                                 square.onclick = () => { return false }
                             })
+                            break
                         }
 
                         game = convertDivToGame()
