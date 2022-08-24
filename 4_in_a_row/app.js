@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
             model_location = "http://localhost:8080/4_in_a_row/tf_models/models_js/alpha_zero_model/model.json"
         } else {
-            model_location = "4_in_a_row/tf_models/models_js/alpha_zero_model/model.json"
+            model_location = "https://andreariba.github.io/games-ai/4_in_a_row/tf_models/models_js/alpha_zero_model/model.json"
         }
 
         tf_alpha_zero_model = await tf.loadGraphModel(model_location)

@@ -15,8 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
             model_location = "http://localhost:8080/tic-tac-toe/tf_models/models_js/alpha_zero_model/model.json"
         } else {
-            model_location = "tic-tac-toe/tf_models/models_js/alpha_zero_model/model.json"
+            model_location = "https://andreariba.github.io/games-ai/tic-tac-toe/tf_models/models_js/alpha_zero_model/model.json"
         }
+
+        console.log(model_location)
 
         tf_alpha_zero_model = await tf.loadGraphModel(model_location)
         let test_output = await tf_alpha_zero_model.predict(tf.tensor2d([0.0, -1.0, 1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0], [1, 9], 'float32'))
