@@ -6,7 +6,7 @@ Web interfaces in HTML, css and javascript for
 2. 4-in-a-row
 3. Tetris
 
-This repository is a collection of AI algorithm to play games. 
+This repository is a collection of AI algorithm to play games, you can play them at https://andreariba.github.io/games-ai
 
 The implemented algorithms are
 
