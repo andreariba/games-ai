@@ -1,8 +1,80 @@
-a.button {
-    -webkit-appearance: button;
-    -moz-appearance: button;
-    appearance: button;
+@import url('https://fonts.googleapis.com/css?family=Oswald:400,700');
 
-    text-decoration: none;
-    color: initial;
+body {
+    height: 70vh;
+    display: grid;
+    place-items: center;
+    font-family: 'Oswald', sans-serif;
+}
+
+.container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    width: 300px;
+}
+
+
+.card__content  {
+    text-align:center;
+    position:relative;
+    padding: 8em 5em;
+    transition: 3s;
+    transform-style: preserve-3d;
+}
+
+.card:hover .card__content{
+    transform: rotateY(.5turn);
+}
+
+.card__front,
+.card__back {
+    position:absolute;
+    top:0;
+    right:0;
+    left:0;
+    bottom:0;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    display: grid;
+    align-content: center;
+}
+
+.card__front {
+    background-color: rgba(255, 255, 255, 0.467);
+    background-image: url("./tic-tac-toe/img/tic-tac-toe.png");
+    background-size: cover;
+    background-blend-mode: overlay;
+    color: #333;
+}
+
+.card__front::before {
+    content: '';
+    position: absolute;
+    --spacer: 1em;
+    top: var(--spacer);
+    bottom: var(--spacer);
+    left: var(--spacer);
+    right: var(--spacer);
+    border: 3px solid #0275d8;
+    transform: translateZ(1.5rem); 
+}
+
+.card__back {
+    transform: rotateY(.5turn);
+    background-color: #81c3fd
+}
+
+.card__title {
+    font-size: 3.5rem;
+    transform: translateZ(3rem);
+}
+
+.card__body {
+    font-size: 3rem;
+    transform: translateZ(1.5rem);
 }
