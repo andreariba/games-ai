@@ -67,7 +67,7 @@ body {
 
 .card__back {
     transform: rotateY(.5turn);
-    background-color: #81c3fd
+    background-color: #81c3fd;
 }
 
 .card__title {
@@ -78,4 +78,5 @@ body {
 .card__body {
     font-size: 3rem;
     transform: translateZ(1.5rem);
+    cursor: pointer;
 }

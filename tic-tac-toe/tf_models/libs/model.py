@@ -31,10 +31,10 @@ def create_az_model():
     )(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
-    # x = tf.keras.layers.Conv2D(
-    #     filters=3**5, kernel_size=1, kernel_regularizer=kernel_regularizer
-    # )(x)
-    # x = tf.keras.layers.BatchNormalization()(x)
+    x = tf.keras.layers.Conv2D(
+        filters=3**5, kernel_size=1, kernel_regularizer=kernel_regularizer
+    )(x)
+    x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.Flatten()(x)
     flatten_inputs = tf.keras.layers.Flatten()(onehot_inputs)
     x = tf.concat([flatten_inputs, x], axis=1)
@@ -74,9 +74,9 @@ def create_az_model():
 
     model = tf.keras.Model(inputs=inputs, outputs=outputs, name="tictactoe_model")
 
-    zero_weights = []
-    for arr in model.get_weights():
-        zero_weights.append(np.zeros(arr.shape))
-    model.set_weights(zero_weights)
+    # zero_weights = []
+    # for arr in model.get_weights():
+    #     zero_weights.append(np.zeros(arr.shape))
+    # model.set_weights(zero_weights)
 
     return model

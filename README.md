@@ -6,7 +6,7 @@ Web interfaces in HTML, css and javascript for
 2. 4-in-a-row
 3. Tetris
 
-This repository is a collection of AI algorithm to play games, you can play them at https://andreariba.github.io/games-ai. The implemented algorithms are
+This repository is a collection of AI algorithm to play games, you can play against the AIs at the github pages https://andreariba.github.io/games-ai. Currently, the implemented algorithms include
 
 | Game        | minimax                        | Monte Carlo Tree Search | AlphaZero-like NN  | Deep Q-learning    |
 | :---------: | :----------------------------: | :---------------------: | :----------------: | :----------------: |
@@ -21,7 +21,7 @@ The AlphaZero-like AI are still in a preliminary state, working on improving the
 Since the simplicity of the algorithm, I strongly recommend to read the Wiki page relative to the minimax, https://en.wikipedia.org/wiki/Minimax
 
 
-## Alpha-zero references
+## AlphaZero references
 
 1. Brief overview on the idea's behind AlphaZero, https://medium.com/mlearning-ai/mastering-tictactoe-with-alphazero-cc28998bf36c
 

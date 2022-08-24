@@ -9,7 +9,7 @@ class Trainer:
         self.game_p = game
         # self.game = None
         self.mcts_p = mcts
-        self.mcts_sims = 50
+        self.mcts_sims = 100
         self.optimizer = None
         self.losses = []
 
@@ -59,15 +59,12 @@ class Trainer:
             estimated_value = root.value()
 
             train_examples.append(
-                (
-                    current_player,
-                    estimated_probabilities,
-                )
+                (current_state_from_player_POV, current_player, estimated_probabilities)
             )
 
             # print(f"Probs:{estimated_probabilities}\nValue:{estimated_value}")
 
-            # take an action
+            # take an action and switch get the new current_player
             action = root.select_action(temperature=temperature)
             next_state, current_player = game.next_state(
                 board=current_state, player=current_player, action=action
