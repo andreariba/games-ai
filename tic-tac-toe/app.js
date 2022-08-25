@@ -3,6 +3,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     var tf_alpha_zero_model
+    var index_ps
+    var index_v
 
     async function loadTFModels() {
 
@@ -21,8 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tf_alpha_zero_model = await tf.loadGraphModel(model_location)
         let test_output = await tf_alpha_zero_model.predict(tf.tensor2d([0.0, -1.0, 1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0], [1, 9], 'float32'))
-        console.log("[Test AlphaZero model ps]:", test_output[0].arraySync())
-        console.log("[Test AlphaZero model v]:", test_output[1].arraySync())
+        // console.log(test_output[0].shape[1] === 1, test_output[1].shape[1] === 9)
+        test_output[0].shape[1] === 9 ? index_ps = 0 : index_ps = 1
+        test_output[1].shape[1] === 1 ? index_v = 1 : index_v = 0
+        console.log("[Test AlphaZero model ps]:", test_output[index_ps].arraySync())
+        console.log("[Test AlphaZero model v]:", test_output[index_v].arraySync())
 
     }
 
@@ -266,8 +271,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         model_prediction = tf_alpha_zero_model.predict(tf.tensor2d(player_pov_game, [1, 9], 'float32'))
         console.log(model_prediction)
-        ps = model_prediction[0].arraySync()[0]
-        v = model_prediction[1].arraySync()[0]
+        ps = model_prediction[index_ps].arraySync()[0]
+        v = model_prediction[index_v].arraySync()[0]
         console.log("[TF model]", ps, v)
 
         move = ps.indexOf(Math.max(...ps))
