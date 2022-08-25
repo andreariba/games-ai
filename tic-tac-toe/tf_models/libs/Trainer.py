@@ -13,8 +13,8 @@ class Trainer:
         self.optimizer = None
         self.losses = []
 
-    def save_model(self):
-        self.model.save("saved_model/alpha_zero_model")
+    def save_model(self, filelocation):
+        self.model.save(filelocation)
 
     def create_dataset(self, number_of_games, temperature=1):
 
@@ -100,8 +100,6 @@ class Trainer:
 
         self.losses = []
 
-        # self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
-
         boards, estimated_pis, estimated_vs = list(zip(*dataset))
 
         boards = tf.concat([b[np.newaxis, :] for b in boards], axis=0)
@@ -110,25 +108,16 @@ class Trainer:
         estimated_pis = tf.cast(estimated_pis, dtype=tf.float32)
         estimated_vs = tf.constant(estimated_vs, dtype=tf.float32)
 
-        # tf_dataset = (
-        #     tf.data.Dataset.from_tensor_slices((boards, (estimated_pis, estimated_vs)))
-        #     .shuffle(100)
-        #     .batch(batch_size)
-        # )
-
-        # test_dataset = tf_dataset.take(1000)
-        # train_dataset = tf_dataset.skip(1000)
-
         self.model.compile(
             # Optimizer
-            optimizer=tf.keras.optimizers.RMSprop(learning_rate=learning_rate),
+            optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
             # Loss function to minimize
             loss=[
                 tf.keras.losses.CategoricalCrossentropy(),
                 tf.keras.losses.MeanSquaredError(),
             ],
             # List of metrics to monitor
-            metrics=[tf.keras.metrics.MeanSquaredError()],
+            # metrics=[tf.keras.metrics.MeanSquaredError()],
             run_eagerly=False,
         )
 
@@ -136,7 +125,7 @@ class Trainer:
             if epoch < 10:
                 return lr
             else:
-                return max(lr * tf.math.exp(-0.01 * (epoch - 10)), 1e-5)
+                return max(lr * tf.math.exp(-0.01 * (epoch - 10)), 1e-4)
 
         self.model.fit(
             x=boards,
@@ -145,9 +134,10 @@ class Trainer:
             batch_size=batch_size,
             callbacks=[
                 tf.keras.callbacks.EarlyStopping(
-                    monitor="loss", patience=20, restore_best_weights=True
+                    monitor="val_loss", patience=10, restore_best_weights=True
                 ),
                 tf.keras.callbacks.LearningRateScheduler(scheduler),
             ],
+            validation_split=0.1,
             use_multiprocessing=True,
         )

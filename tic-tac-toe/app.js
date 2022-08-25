@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tf_alpha_zero_model = await tf.loadGraphModel(model_location)
         let test_output = await tf_alpha_zero_model.predict(tf.tensor2d([0.0, -1.0, 1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0], [1, 9], 'float32'))
-        console.log("[Test AlphaZero model ps]:", test_output[1].arraySync())
-        console.log("[Test AlphaZero model v]:", test_output[0].arraySync())
+        console.log("[Test AlphaZero model ps]:", test_output[0].arraySync())
+        console.log("[Test AlphaZero model v]:", test_output[1].arraySync())
 
     }
 
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     let game = convertDivToGame()
 
-                    console.log(game)
+                    console.log("[Game]", game)
 
 
                     if (checkWinner(game, currentPlayer) == false && game.some(el => el === 0)) {
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         game = convertDivToGame()
 
-        console.log(game)
+        console.log("[Game]", game)
 
         checkWinner(game, player)
 
@@ -250,19 +250,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+
+
     function TF_decision(game, player) {
 
         let model_prediction
         let move = -1
 
-
-        let player_pov_game = game.map(el => { if (el === 2) { el = -1 * player } else { el = el * player }; return el; })
-        console.log(player_pov_game)
+        let player_pov_game = game.map((el) => {
+            el === 2 ? el = -1 : el = el
+            player === 2 ? el = el * -1 : el = el
+            return el
+        })
+        console.log("[Player POV]:", player_pov_game)
 
         model_prediction = tf_alpha_zero_model.predict(tf.tensor2d(player_pov_game, [1, 9], 'float32'))
         console.log(model_prediction)
-        ps = model_prediction[1].arraySync()[0]
-        v = model_prediction[0].arraySync()[0]
+        ps = model_prediction[0].arraySync()[0]
+        v = model_prediction[1].arraySync()[0]
         console.log("[TF model]", ps, v)
 
         move = ps.indexOf(Math.max(...ps))
