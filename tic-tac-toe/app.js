@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("[Player POV]:", player_pov_game)
 
         model_prediction = tf_alpha_zero_model.predict(tf.tensor2d(player_pov_game, [1, 9], 'float32'))
-        console.log(model_prediction)
+        // console.log( model_prediction)
         ps = model_prediction[index_ps].arraySync()[0]
         v = model_prediction[index_v].arraySync()[0]
         console.log("[TF model]", ps, v)
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let new_game_1 = game.slice()
                 new_game_1[i] = player
                 let value = compute_minimax(new_game_1, player)
-                console.log(i, value)
+                // console.log(i, value)
                 if (value > minimax) {
                     minimax = value
                     index = [i]

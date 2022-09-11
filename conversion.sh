@@ -3,8 +3,8 @@
 
 # Tic-Tac-Toe
 #alpha_zero_model="tic-tac-toe/tf_models/saved_model/alpha_zero_model_1k_training_validation"
-alpha_zero_model="tic-tac-toe/tf_models/saved_model/alpha_zero_model_10k_training_validation"
-#alpha_zero_model="tic-tac-toe/tf_models/saved_model/tmp_model"
+#alpha_zero_model="tic-tac-toe/tf_models/saved_model/alpha_zero_model_10k_training_validation"
+alpha_zero_model="tic-tac-toe/tf_models/saved_model/alpha_zero_10k_and_20round_selfplay_decreasing_temp"
 target_folder_alpha_zero_model="tic-tac-toe/tf_models/models_js/alpha_zero_model"
 
 tensorflowjs_converter --input_format tf_saved_model \
