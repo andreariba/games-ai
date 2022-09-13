@@ -180,6 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return grid;
     };
 
+    // solve(testEasy);
+    // drawGrid(testEasy);
     solve(testMedium);
     drawGrid(testMedium);
+    // solve(testHard);
+    // drawGrid(testHard);
 })
