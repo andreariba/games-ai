@@ -1,30 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    testEasy = [
-        [0,7,0,0,0,9,0,0,0],
-        [8,0,0,0,2,0,6,0,3],
-        [0,0,1,0,0,5,0,4,0],
-        [0,5,0,0,0,0,1,0,0],
-        [7,0,0,4,0,8,0,0,2],
-        [0,0,3,0,0,0,0,6,0],
-        [0,9,0,8,0,0,4,0,0],
-        [2,0,6,0,1,0,0,0,5],
-        [0,0,0,7,0,0,0,3,0]
-    ];
-    
-    testMedium = [
-        [2,0,0,0,0,0,0,4,0],
-        [0,0,0,8,0,0,0,0,9],
-        [0,0,6,0,0,3,5,0,0],
-        [0,0,5,0,4,0,0,6,0],
-        [0,0,0,5,0,7,0,0,0],
-        [0,8,0,0,2,0,4,0,0],
-        [0,0,8,7,0,0,9,0,0],
-        [9,0,0,0,0,4,0,0,0],
-        [0,2,0,0,0,0,0,0,8]
-    ];
-    
+    // impossible to solve for now
     testHard = [
         [5,0,0,0,0,0,0,0,6],
         [0,8,0,0,0,6,0,2,0],
@@ -37,30 +14,99 @@ document.addEventListener('DOMContentLoaded', () => {
         [8,0,0,0,0,0,0,0,2]
     ];
 
+
     let width = height = 9;
     let arraySize = width*height;
-    let solveButton = document.getElementById('solve-button')
+    let startButton = document.getElementById('start-button');
+    let solveButton = document.getElementById('solve-button');
     let resetButton = document.getElementById('reset-button');
-    let grid = document.querySelector('.grid');
+    let grid_el = document.querySelector('.grid');
     let squares;
+    let input_grid = [];
     let availableEntries = {};
 
-    grid.innerHTML = '';
-    for (let i = 0; i < arraySize; i++) {
-
-        grid.innerHTML += '<div class="cell"></div>';
-
+    function reset() {
+        grid_el.innerHTML = '';
+        for (let i = 0; i < arraySize; i++) {
+            grid_el.innerHTML += '<div class="cell"></div>';
+        }
+        squares = Array.from(grid_el.getElementsByClassName('cell'));
+        squares.forEach( square => {square.onclick = onClickSelect});
     }
 
-    squares = Array.from(grid.getElementsByClassName('cell'));
+    function onClickSelect() {
+        squares.forEach( square => { if(square.classList.contains("selected") ) { square.classList="cell"}})
+        this.classList.add("selected");
+    }
+
+    function convertToNumber(e) {
+        if (e.keyCode === 49) {
+            return 1;
+        } else if (e.keyCode === 50) {
+            return 2;
+        } else if (e.keyCode === 51) {
+            return 3;
+        } else if (e.keyCode === 52) {
+            return 4;
+        } else if (e.keyCode === 53) {
+            return 5;
+        } else if (e.keyCode === 54) {
+            return 6;
+        } else if (e.keyCode === 55) {
+            return 7;
+        } else if (e.keyCode === 56) {
+            return 8;
+        } else if (e.keyCode === 57) {
+            return 9;
+        } else if (e.keyCode === 48) {
+            return "";
+        }
+        return 0;
+    }
+
+    // assign function to input the current number pattern
+    function start() {
+        let tmp_grid = [];
+        squares.forEach( square => {
+            if (square.innerHTML !== "") {
+                tmp_grid.push(parseInt(square.innerHTML));
+            } else {
+                tmp_grid.push(0);
+            }
+        });
+
+        console.log(tmp_grid);
+        input_grid = []
+        while(tmp_grid.length>0) input_grid.push(tmp_grid.splice(0,9));
+
+        availableEntries = init_available(input_grid);
+        drawGrid(input_grid, availableEntries);
+    }
+
+    // assign function to number keys
+    function control(e) {
+        squares.forEach( square => { 
+            const value = convertToNumber(e);
+            if(square.classList.contains("selected") && value !==0  ) { 
+                square.innerHTML = value;
+            }
+        })
+    }
+
+    // add an number listener
+    document.addEventListener('keyup', control)
+    // add reset button event
+    resetButton.addEventListener('click', reset);
+    // add start button event
+    startButton.addEventListener('click', start);
     
-    const drawGrid = (grid, availableEntries) => {
+    const drawGrid = (grid, availableEntries={}) => {
         for (let i=0;i<height;i++) {
             for (let j=0;j<width;j++) {
                 value = grid[i][j];
                 if (value !== 0) squares[i*width+j].innerHTML = "<b>"+value+"</b>";
                 else {
-                    squares[i*width+j].innerHTML = "<small>"+availableEntries[i*width+j]+"</small>";
+                    if (Object.keys(availableEntries).length !== 0) squares[i*width+j].innerHTML = "<small>"+availableEntries[i*width+j]+"</small>";
                 }
             }
         }
@@ -104,44 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return available;
     };
     
-    function onlyPossible(availableEntries, row, col, value) {
-
-        let index;
-    
-        let colCount = 0;
-        for (let n=0;n<height;n++) {
-    
-            index = availableEntries[n*width+col].indexOf(value);
-            if (index > -1) colCount++;
-
-        }
-
-        let rowCount = 0;
-        for (let n=0;n<width;n++) {
-    
-            index = availableEntries[row*width+n].indexOf(value);
-            if (index > -1) rowCount++;
-    
-        }
-    
-        quadrant_row = Math.floor(row/3)*3 + 1;
-        quadrant_col = Math.floor(col/3)*3 + 1;
-    
-        let squareCount = 0;
-        for (let i=-1;i<=1;i++) {
-            for (let j=-1;j<=1;j++) {
-    
-                index = availableEntries[(quadrant_row+i)*width + quadrant_col+j].indexOf(value);
-                if (index > -1) squareCount++;
-    
-            }
-        }
-        if (squareCount===1 || rowCount===1 || colCount===1) return true;
-    
-        return false;
-    };
-
-
+    // recursive function returning all the possible combinations from an array of values
     function combinations(array) {
     
         const allCombinations = [[]];
@@ -159,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
+    // function to identify islands and keep only possible entries
     function keepIslands(combo, listEntries, label="") {
 
         let index;
@@ -207,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
         return newEntries;
     }
-
     
     function findIslandsAt(availableEntries, row, col) {
 
@@ -264,9 +273,70 @@ document.addEventListener('DOMContentLoaded', () => {
                     availableEntries[(quadrant_row+i)*width + quadrant_col+j] = newQuadrantEntries[(i+1)*3+j+1];
                 }
             }
+
+            findQuadrantConstraints(availableEntries, row, col);
         }
 
-    };  
+    };
+
+    function findQuadrantConstraints(availableEntries, row, col) {
+
+        let pos = row*width+col;
+        let possibleChoices = [...availableEntries[pos]];
+
+        for (let value of possibleChoices) {
+
+            // Quadrant 
+            quadrant_row = Math.floor(row/3)*3+1;
+            quadrant_col = Math.floor(col/3)*3+1;
+            let isOnlyInRow = true;
+            let isOnlyInColumn = true;
+            for (let i=-1;i<=1;i++) {
+                for (let j=-1;j<=1;j++) {
+                    
+                    if ( (quadrant_col+j) !== col) {
+                        if (availableEntries[(quadrant_row+i)*width + quadrant_col+j].indexOf(value) !== -1) {
+                            isOnlyInColumn = false;
+                        }
+                    }
+
+                    if ( (quadrant_row+i) !== row ) {
+                        if (availableEntries[(quadrant_row+i)*width + quadrant_col+j].indexOf(value) !== -1) {
+                            isOnlyInRow = false;
+                        }
+                    }
+                }
+            }
+
+            if (isOnlyInRow) {
+                for (let n=0;n<width;n++) {
+                    let q_col = Math.floor(n/3)*3+1;
+                    if (q_col !== quadrant_col) {
+                        const index = availableEntries[row*width+n].indexOf(value);
+                        if (index>-1) {
+                            availableEntries[row*width+n].splice(index,1);
+                            console.log("findQuadrantConstraints row", row, n, value);
+                        }
+                    }
+                }
+            }
+
+            if (isOnlyInColumn) {
+                for (let n=0;n<height;n++) {
+                    let q_row = Math.floor(n/3)*3+1;
+                    if (q_row !== quadrant_row) {
+                        const index = availableEntries[n*width+col].indexOf(value);
+                        if (index>-1) {
+                            availableEntries[n*width+col].splice(index,1);
+                            console.log("findQuadrantConstraints col", n, col, value);
+                        }
+                    }
+                }
+            }
+            
+        }
+
+    };
 
     function init_available(grid) {
         // loop to extract available entries and solve trivial cases
@@ -359,10 +429,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     };
 
-    solveButton.addEventListener('click', () => { solve(grid, availableEntries); drawGrid(grid, availableEntries);});
+    solveButton.addEventListener('click', () => { solve(input_grid, availableEntries); drawGrid(input_grid, availableEntries);});
 
-    grid = testMedium;
-    availableEntries = init_available(grid);
-    drawGrid(grid, availableEntries);
+    reset();
+
+    // grid = testHard3;
+    // availableEntries = init_available(grid);
+    // drawGrid(grid, availableEntries);
 
 })

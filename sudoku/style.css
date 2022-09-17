@@ -46,6 +46,10 @@ body {
     vertical-align: middle;
 }
 
+#selected {
+    border: 2px solid red;
+}
+
 .small {
     font-size: x-small;
 }
