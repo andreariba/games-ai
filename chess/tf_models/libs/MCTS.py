@@ -48,8 +48,10 @@ class Node:
     def expand(self, state, player, probs):
         self.player = player
         self.state = state
+        print(state, player)
         for a, p in enumerate(probs):
             if p != 0:
+                # print(a, p)
                 self.children[a] = Node(prior=p, player=-1 * self.player)
 
     def expanded(self):
@@ -103,16 +105,17 @@ class MCTS:
 
         if root is None:
             root = Node(0, player)
-            state = state.copy()
+            state = state[:]
         else:
-            if (state != root.state).any():
+            if state != root.state:
                 raise "Incompatible root and state"
-            state = root.state.copy()
+            state = root.state[:]
 
         if not root.expanded() and not root.is_leaf():
             if model is None:
                 ps = self.game.get_available_actions(state)
             else:
+                # TO UPDATE
                 ps, v = model.predict(state[np.newaxis, :])
                 mask_actions = self.game.get_available_actions(state)
                 ps = ps.flatten() * mask_actions
@@ -135,16 +138,16 @@ class MCTS:
                 parent = search_path[-2]
 
             # get the board of the parent
-            state = parent.state.copy()
+            state = parent.state[:]
 
-            # play the board
-            self.game.play(state)
+            # print(state, action)
+
             # get the next states for the current player
-            next_state, _ = self.game.next_state(board=state, player=1, action=action)
-
+            next_state = self.game.next_state(fen=state, action=action)
+            # print(next_state)
             # get the board from the point of view of the opponent
-            next_state = self.game.get_board_from_player(player=-1)
-
+            next_state = self.game.get_board_from_player(fen=next_state, player=-1)
+            # print(next_state)
             # get the value for this board for the opponent
             value = self.game.get_reward_for_player(next_state, player=1)
 
@@ -153,8 +156,10 @@ class MCTS:
 
                 # compute the probabilities and value from the model
                 if model is None:
-                    ps = self.game.get_available_actions(state)
+                    ps = self.game.get_available_actions(next_state)
+
                 else:
+                    # TO UPDATE
                     ps, v = model.predict(next_state[np.newaxis, :])
                     mask_actions = self.game.get_available_actions(next_state)
                     ps = ps.flatten() * mask_actions
@@ -162,11 +167,12 @@ class MCTS:
                 # v = v.flatten()
 
                 # since the game is not over expand the node to its child
-                node.expand(next_state, parent.player * -1, ps)
+                # print("expand:", next_state, parent.player * -1, ps)
+                node.expand(next_state[:], parent.player * -1, ps)
 
             else:
                 # just to keep track of the states of the leaves
-                node.set_state(next_state, True)
+                node.set_state(next_state[:], True)
 
             # backpropagate the value.
             # Remember that the current node keeps track of the reward of the next player
