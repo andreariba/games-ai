@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // model_location = "http://localhost:8080/tic-tac-toe/tf_models/models_js/alpha_zero_model/model.json"
             model_location = "http://localhost:9080/tic-tac-toe/tf_models/models_js/20240102134815_model/model.json"
         } else {
-            model_location = "https://andreariba.github.io/games-ai/tic-tac-toe/tf_models/models_js/alpha_zero_model/model.json"
+            model_location = "https://andreariba.github.io/games-ai/tic-tac-toe/tf_models/models_js/20240102134815_model/model.json"
         }
 
         console.log(model_location)
