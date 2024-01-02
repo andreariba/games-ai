@@ -1,5 +1,8 @@
 #!/bin/bash
 
+alpha_zero_model="tic-tac-toe/tf_models/saved_model/tmp_model"
+target_folder_alpha_zero_model="tic-tac-toe/tf_models/models_js/test_model"
+tensorflowjs_converter --input_format tf_saved_model --output_format=tfjs_graph_model --output_node_names='policy,value' --saved_model_tags=serve "tic-tac-toe/tf_models/saved_model/tmp_model" "tic-tac-toe/tf_models/models_js/test_model"
 
 # Tic-Tac-Toe
 #alpha_zero_model="tic-tac-toe/tf_models/saved_model/alpha_zero_model_1k_training_validation"
