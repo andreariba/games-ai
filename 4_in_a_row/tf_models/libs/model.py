@@ -1,18 +1,33 @@
+import hashlib
 import numpy as np
 import tensorflow as tf
 
 
-class MaskPlayed(tf.keras.layers.Layer):
-    def __init__(self):
-        super().__init__()
-        self.trainable = True
+class CachedModel:
 
-    def call(self, inputs, x):
-        zero = tf.constant(0, dtype=tf.float32)
-        mask = tf.equal(inputs, zero)
-        masked = tf.where(mask, x, tf.zeros_like(x))
+    def __init__(self, model: tf.keras.Model, cache = {}):
 
-        return masked
+        self._model = model
+        self._cached_predict = cache
+
+    def predict(self, x: np.array):
+
+        key = hashlib.sha1(x.view(np.uint8)).hexdigest()
+
+        if key not in self._cached_predict:
+            self._cached_predict[key] = self._model.predict(x)
+
+        return self._cached_predict[key]
+    
+    def compile(self, *args, **kwargs):
+        self._model.compile(*args, **kwargs)
+
+    def fit(self, *args, **kwargs):
+        self._model.fit(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        self._model.save(*args, **kwargs)
+
 
 
 def create_az_model():
@@ -80,3 +95,16 @@ def create_az_model():
     # model.set_weights(zero_weights)
 
     return model
+
+
+class MaskPlayed(tf.keras.layers.Layer):
+    def __init__(self):
+        super().__init__()
+        self.trainable = True
+
+    def call(self, inputs, x):
+        zero = tf.constant(0, dtype=tf.float32)
+        mask = tf.equal(inputs, zero)
+        masked = tf.where(mask, x, tf.zeros_like(x))
+
+        return masked

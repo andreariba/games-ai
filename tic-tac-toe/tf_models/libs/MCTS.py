@@ -4,6 +4,9 @@ import numpy as np
 
 # Upper Confidence Bound
 def ucb_score(parent, child):
+
+    c = 3.0
+
     prior_score = child.prior * math.sqrt(parent.visit_count) / (child.visit_count + 1)
     if child.visit_count > 0:
         # The value of the child is from the perspective of the opposing player
@@ -11,7 +14,7 @@ def ucb_score(parent, child):
     else:
         value_score = 0
 
-    return value_score + prior_score
+    return value_score + c*prior_score
 
 
 class Node:
